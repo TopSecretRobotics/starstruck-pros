@@ -1,0 +1,25 @@
+language: generic
+
+sudo: required
+
+services:
+  - docker
+
+notifications:
+  email: false
+
+cache:
+  directories:
+    - docker-pros
+
+before_install:
+  -
+    if [ -e "docker-pros/image.tar" ]; then
+      docker load -i "docker-pros/image.tar";
+    else
+      docker build -t "docker-pros" -f Dockerfile .;
+      mkdir -p "docker-pros"; docker save -o "docker-pros/image.tar" "docker-pros";
+    fi
+
+script:
+  - docker run -v `pwd`:/build "docker-pros" sh -c 'make'
