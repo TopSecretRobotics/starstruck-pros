@@ -5,3 +5,5 @@ RUN apt-get update && \
 
 RUN mkdir /build
 WORKDIR /build
+
+CMD /bin/bash
