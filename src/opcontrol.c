@@ -31,6 +31,7 @@
  */
 void operatorControl() {
 	while (1) {
+		drivetrainTick();
 		delay(20);
 	}
 }

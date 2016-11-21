@@ -37,4 +37,6 @@ void initializeIO() {
  * can be implemented in this task if desired.
  */
 void initialize() {
+  drivetrainSet(DRIVETRAIN_TYPE_BASIC_XDRIVE);
+  // drivetrainSet(DRIVETRAIN_TYPE_HOLONOMIC_XDRIVE);
 }
