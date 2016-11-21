@@ -12,6 +12,31 @@
 
 #include "main.h"
 
+typedef struct motor_s {
+	unsigned char channel;
+	bool reflected;
+} motor_t;
+
+static motor_t frontRDrive = {2, true};
+static motor_t frontLDrive = {3};
+static motor_t backRDrive  = {4, true};
+static motor_t backLDrive  = {5};
+static motor_t lowerRArm   = {6};
+static motor_t lowerLArm   = {7};
+static motor_t middleArm   = {8};
+static motor_t topArm      = {9};
+
+static void motorReflect(motor_t *motor, int speed) {
+	if (speed == 0) {
+		motorStop(motor->channel);
+		return;
+	}
+	if (motor->reflected) {
+		speed *= -1;
+	}
+	motorSet(motor->channel, speed);
+}
+
 /*
  * Runs the user operator control code. This function will be started in its own task with the
  * default priority and stack size whenever the robot is enabled via the Field Management System
@@ -31,6 +56,60 @@
  */
 void operatorControl() {
 	while (1) {
+		motorReflect(&frontRDrive, joystickGetAnalog(1, 3));
+		motorReflect(&frontLDrive, joystickGetAnalog(1, 3));
+		motorReflect(&backRDrive,  joystickGetAnalog(1, 3));
+		motorReflect(&backLDrive,  joystickGetAnalog(1, 3));
+
+		motorReflect(&frontRDrive, joystickGetAnalog(1, 3) + joystickGetAnalog(1, 1));
+		motorReflect(&frontLDrive, joystickGetAnalog(1, 3) - joystickGetAnalog(1, 1));
+		motorReflect(&backRDrive,  joystickGetAnalog(1, 3) + joystickGetAnalog(1, 1));
+		motorReflect(&backLDrive,  joystickGetAnalog(1, 3) - joystickGetAnalog(1, 1));
+
+		motorReflect(&frontRDrive, joystickGetAnalog(1, 3) - joystickGetAnalog(1, 1) - joystickGetAnalog(1, 4));
+		motorReflect(&frontLDrive, joystickGetAnalog(1, 3) + joystickGetAnalog(1, 1) + joystickGetAnalog(1, 4));
+		motorReflect(&backRDrive,  joystickGetAnalog(1, 3) + joystickGetAnalog(1, 1) - joystickGetAnalog(1, 4));
+		motorReflect(&backLDrive,  joystickGetAnalog(1, 3) - joystickGetAnalog(1, 1) + joystickGetAnalog(1, 4));
+
+		if (joystickGetDigital(1, 6, JOY_UP) == 1) {
+			motorReflect(&lowerLArm, 127);
+			motorReflect(&lowerRArm, 127);
+		}
+
+		if (joystickGetDigital(1, 6, JOY_DOWN) == 1) {
+			motorReflect(&lowerLArm, -127);
+			motorReflect(&lowerRArm, -127);
+		}
+
+		if (joystickGetDigital(1, 5, JOY_UP) == 1) {
+			motorReflect(&middleArm, 127);
+		}
+
+		if (joystickGetDigital(1, 5, JOY_DOWN) == 1) {
+			motorReflect(&middleArm, -127);
+		}
+
+		if ((joystickGetDigital(1, 6, JOY_UP) == 0) && (joystickGetDigital(1, 6, JOY_DOWN) == 0)) {
+			motorReflect(&lowerLArm, 0);
+			motorReflect(&lowerRArm, 0);
+		}
+
+		if (joystickGetDigital(1, 5, JOY_UP) == 1) {
+			motorReflect(&topArm, 127);
+		}
+
+		if (joystickGetDigital(1, 5, JOY_DOWN) == 1) {
+			motorReflect(&topArm, -127);
+		}
+
+		if (joystickGetDigital(1, 5, JOY_UP) == 0) {
+			motorReflect(&topArm, 127);
+		}
+
+		if ((joystickGetDigital(1, 5, JOY_UP) == 0) && (joystickGetDigital(1, 5, JOY_DOWN) == 0)) {
+			motorReflect(&middleArm, 127);
+		}
+
 		delay(20);
 	}
 }
