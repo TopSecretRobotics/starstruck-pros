@@ -18,8 +18,8 @@ extern "C" {
 
 typedef struct drivemotor_s {
   unsigned char channel;
-	uint8_t side;
-	bool reflected;
+  uint8_t side;
+  bool reflected;
 } drivemotor_t;
 
 int drivemotorGet(drivemotor_t *drivemotor);

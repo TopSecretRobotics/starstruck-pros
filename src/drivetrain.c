@@ -5,19 +5,19 @@
  */
 
 typedef struct basicDrive_s {
-	drivemotor_t frontRight;
-	drivemotor_t frontLeft;
-	drivemotor_t backRight;
-	drivemotor_t backLeft;
+  drivemotor_t frontRight;
+  drivemotor_t frontLeft;
+  drivemotor_t backRight;
+  drivemotor_t backLeft;
 } basicDrive_t;
 
 static void basicDriveTick(void *data);
 
 static basicDrive_t basicDriveData = {
-	{2, DRIVEMOTOR_SIDE_RIGHT, true }, // frontRight
-	{3, DRIVEMOTOR_SIDE_LEFT,  false}, // frontLeft
-	{4, DRIVEMOTOR_SIDE_RIGHT, true }, // backRight
-	{5, DRIVEMOTOR_SIDE_LEFT,  false}, // backLeft
+  {2, DRIVEMOTOR_SIDE_RIGHT, true }, // frontRight
+  {3, DRIVEMOTOR_SIDE_LEFT,  false}, // frontLeft
+  {4, DRIVEMOTOR_SIDE_RIGHT, true }, // backRight
+  {5, DRIVEMOTOR_SIDE_LEFT,  false}, // backLeft
 };
 
 /*
@@ -29,20 +29,20 @@ static basicDrive_t basicDriveData = {
 #define HOLONOMIC_DEADBAND 20
 
 typedef struct holonomicDrive_s {
-	drivemotor_t frontRight;
-	drivemotor_t frontLeft;
-	drivemotor_t rearRight;
-	drivemotor_t rearLeft;
+  drivemotor_t frontRight;
+  drivemotor_t frontLeft;
+  drivemotor_t rearRight;
+  drivemotor_t rearLeft;
 } holonomicDrive_t;
 
 static void holonomicDriveTick(void *data);
 static void holonomicDriveSet(void *data, double radians, double speed, int rotation);
 
 static holonomicDrive_t holonomicDriveData = {
-	{2, DRIVEMOTOR_SIDE_RIGHT, false}, // frontRight
-	{3, DRIVEMOTOR_SIDE_LEFT,  false}, // frontLeft
-	{4, DRIVEMOTOR_SIDE_RIGHT, false}, // rearRight
-	{5, DRIVEMOTOR_SIDE_LEFT,  false}, // rearLeft
+  {2, DRIVEMOTOR_SIDE_RIGHT, false}, // frontRight
+  {3, DRIVEMOTOR_SIDE_LEFT,  false}, // frontLeft
+  {4, DRIVEMOTOR_SIDE_RIGHT, false}, // rearRight
+  {5, DRIVEMOTOR_SIDE_LEFT,  false}, // rearLeft
 };
 
 /*
@@ -114,10 +114,10 @@ static void holonomicDriveSet(void *data, double radians, double speed, int rota
     double rearRightOutput  =  DRIVEMOTOR_MAX_SPEED * cos((PI / 4) - radians);
     double rearLeftOutput   = -DRIVEMOTOR_MAX_SPEED * cos((PI / 4) + radians);
 
-		frontLeftOutput  += rotation;
-		frontRightOutput += rotation;
-		rearRightOutput  += rotation;
-		rearLeftOutput   += rotation;
+    frontLeftOutput  += rotation;
+    frontRightOutput += rotation;
+    rearRightOutput  += rotation;
+    rearLeftOutput   += rotation;
 
     double maxOutput = fabsmax(4, frontLeftOutput, frontRightOutput, rearLeftOutput, rearRightOutput);
     speed *= (DRIVEMOTOR_MAX_SPEED / maxOutput);

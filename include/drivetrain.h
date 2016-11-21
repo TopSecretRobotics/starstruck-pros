@@ -15,8 +15,8 @@ extern "C" {
 
 typedef struct drivetrain_s {
   uint8_t type;
-	void (*tick)(void *data);
-	void *data;
+  void (*tick)(void *data);
+  void *data;
 } drivetrain_t;
 
 drivetrain_t *drivetrainGet(void);
