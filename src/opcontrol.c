@@ -17,16 +17,16 @@ typedef struct motor_s {
 	bool reflected;
 } motor_t;
 
-static motor_t frontRDrive = {2, true};
-static motor_t frontLDrive = {3};
-static motor_t backRDrive  = {4, true};
-static motor_t backLDrive  = {5};
-static motor_t lowerRArm   = {6};
-static motor_t lowerLArm   = {7};
-static motor_t middleArm   = {8};
-static motor_t topArm      = {9};
+static const motor_t frontRDrive = {2, true};
+static const motor_t frontLDrive = {3};
+static const motor_t backRDrive  = {4, true};
+static const motor_t backLDrive  = {5};
+static const motor_t lowerRArm   = {6};
+static const motor_t lowerLArm   = {7};
+static const motor_t middleArm   = {8};
+static const motor_t topArm      = {9};
 
-static void motorReflect(motor_t *motor, int speed) {
+static void motorReflect(const motor_t *motor, int speed) {
 	if (speed == 0) {
 		motorStop(motor->channel);
 		return;
