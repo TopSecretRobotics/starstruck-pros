@@ -1,4 +1,4 @@
-# PROS skeleton project
+# Starstruck PROS project
 
 Usage with docker:
 
@@ -12,7 +12,7 @@ Usage with docker-compose:
 ```bash
 # Start containers
 docker-compose up -d
-docker attach pros_project_1
+docker attach pros_starstruck_1
 # Stop containers
 docker-compose stop
 ```
