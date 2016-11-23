@@ -39,9 +39,9 @@ static void holonomicDriveTick(void *data);
 static void holonomicDriveSet(void *data, double radians, double speed, int rotation);
 
 static holonomicDrive_t holonomicDriveData = {
-  {3, DRIVEMOTOR_SIDE_RIGHT, true }, // frontRight
+  {3, DRIVEMOTOR_SIDE_RIGHT, false}, // frontRight
   {5, DRIVEMOTOR_SIDE_LEFT,  false}, // frontLeft
-  {2, DRIVEMOTOR_SIDE_RIGHT, true }, // rearRight
+  {2, DRIVEMOTOR_SIDE_RIGHT, false}, // rearRight
   {4, DRIVEMOTOR_SIDE_LEFT,  false}, // rearLeft
 };
 
