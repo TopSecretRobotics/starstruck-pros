@@ -12,31 +12,8 @@
 
 #include "main.h"
 
-typedef struct motor_s {
-	unsigned char channel;
-	bool reflected;
-} motor_t;
-
-static const motor_t frontRDrive = {3, true};
-static const motor_t frontLDrive = {5};
-static const motor_t backRDrive  = {2, true};
-static const motor_t backLDrive  = {4};
-static const motor_t lowerRArm   = {6};
-static const motor_t lowerLArm   = {7};
-static const motor_t middleArm   = {8};
-static const motor_t topArm      = {9};
-
-static void motorReflect(const motor_t *motor, int speed) {
-	if (speed == 0) {
-		motorStop(motor->channel);
-		return;
-	}
-	if (motor->reflected) {
-		speed *= -1;
-	}
-	motorSet(motor->channel, speed);
-}
-
+static const unsigned char top_pot = 1;
+static const unsigned char bot_pot = 2;
 /*
  * Runs the user operator control code. This function will be started in its own task with the
  * default priority and stack size whenever the robot is enabled via the Field Management System
@@ -54,61 +31,16 @@ static void motorReflect(const motor_t *motor, int speed) {
  *
  * This task should never exit; it should end with some kind of infinite loop, even if empty.
  */
+
 void operatorControl() {
 	while (1) {
-		// motorReflect(&frontRDrive, joystickGetAnalog(1, 3));
-		// motorReflect(&frontLDrive, joystickGetAnalog(1, 3));
-		// motorReflect(&backRDrive,  joystickGetAnalog(1, 3));
-		// motorReflect(&backLDrive,  joystickGetAnalog(1, 3));
-		//
-		// motorReflect(&frontRDrive, joystickGetAnalog(1, 3) + joystickGetAnalog(1, 1));
-		// motorReflect(&frontLDrive, joystickGetAnalog(1, 3) - joystickGetAnalog(1, 1));
-		// motorReflect(&backRDrive,  joystickGetAnalog(1, 3) + joystickGetAnalog(1, 1));
-		// motorReflect(&backLDrive,  joystickGetAnalog(1, 3) - joystickGetAnalog(1, 1));
+		drive_tick();
+		arm_tick();
+		wrist_tick();
+		claw_tick();
 
-		motorReflect(&frontRDrive, joystickGetAnalog(1, 3) - joystickGetAnalog(1, 1) - joystickGetAnalog(1, 4));
-		motorReflect(&frontLDrive, joystickGetAnalog(1, 3) + joystickGetAnalog(1, 1) + joystickGetAnalog(1, 4));
-		motorReflect(&backRDrive,  joystickGetAnalog(1, 3) + joystickGetAnalog(1, 1) - joystickGetAnalog(1, 4));
-		motorReflect(&backLDrive,  joystickGetAnalog(1, 3) - joystickGetAnalog(1, 1) + joystickGetAnalog(1, 4));
-
-		// if (joystickGetDigital(1, 6, JOY_UP) == 1) {
-		// 	motorReflect(&lowerLArm, 127);
-		// 	motorReflect(&lowerRArm, 127);
-		// }
-		//
-		// if (joystickGetDigital(1, 6, JOY_DOWN) == 1) {
-		// 	motorReflect(&lowerLArm, -127);
-		// 	motorReflect(&lowerRArm, -127);
-		// }
-		//
-		// if (joystickGetDigital(1, 5, JOY_UP) == 1) {
-		// 	motorReflect(&middleArm, 127);
-		// }
-		//
-		// if (joystickGetDigital(1, 5, JOY_DOWN) == 1) {
-		// 	motorReflect(&middleArm, -127);
-		// }
-		//
-		// if ((joystickGetDigital(1, 6, JOY_UP) == 0) && (joystickGetDigital(1, 6, JOY_DOWN) == 0)) {
-		// 	motorReflect(&lowerLArm, 0);
-		// 	motorReflect(&lowerRArm, 0);
-		// }
-		//
-		// if (joystickGetDigital(1, 5, JOY_UP) == 1) {
-		// 	motorReflect(&topArm, 127);
-		// }
-		//
-		// if (joystickGetDigital(1, 5, JOY_DOWN) == 1) {
-		// 	motorReflect(&topArm, -127);
-		// }
-		//
-		// if (joystickGetDigital(1, 5, JOY_UP) == 0) {
-		// 	motorReflect(&topArm, 127);
-		// }
-		//
-		// if ((joystickGetDigital(1, 5, JOY_UP) == 0) && (joystickGetDigital(1, 5, JOY_DOWN) == 0)) {
-		// 	motorReflect(&middleArm, 127);
-		// }
+		lcdPrint(uart1, 1,"T %d", analogRead(top_pot));
+	  lcdPrint(uart1, 2,"B %d", analogRead(bot_pot));
 
 		delay(20);
 	}
