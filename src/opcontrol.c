@@ -17,10 +17,10 @@ typedef struct motor_s {
 	bool reflected;
 } motor_t;
 
-static const motor_t frontRDrive = {2, true};
-static const motor_t frontLDrive = {3};
-static const motor_t backRDrive  = {4, true};
-static const motor_t backLDrive  = {5};
+static const motor_t frontRDrive = {3, true};
+static const motor_t frontLDrive = {5};
+static const motor_t backRDrive  = {2, true};
+static const motor_t backLDrive  = {4};
 static const motor_t lowerRArm   = {6};
 static const motor_t lowerLArm   = {7};
 static const motor_t middleArm   = {8};
@@ -56,59 +56,59 @@ static void motorReflect(const motor_t *motor, int speed) {
  */
 void operatorControl() {
 	while (1) {
-		motorReflect(&frontRDrive, joystickGetAnalog(1, 3));
-		motorReflect(&frontLDrive, joystickGetAnalog(1, 3));
-		motorReflect(&backRDrive,  joystickGetAnalog(1, 3));
-		motorReflect(&backLDrive,  joystickGetAnalog(1, 3));
-
-		motorReflect(&frontRDrive, joystickGetAnalog(1, 3) + joystickGetAnalog(1, 1));
-		motorReflect(&frontLDrive, joystickGetAnalog(1, 3) - joystickGetAnalog(1, 1));
-		motorReflect(&backRDrive,  joystickGetAnalog(1, 3) + joystickGetAnalog(1, 1));
-		motorReflect(&backLDrive,  joystickGetAnalog(1, 3) - joystickGetAnalog(1, 1));
+		// motorReflect(&frontRDrive, joystickGetAnalog(1, 3));
+		// motorReflect(&frontLDrive, joystickGetAnalog(1, 3));
+		// motorReflect(&backRDrive,  joystickGetAnalog(1, 3));
+		// motorReflect(&backLDrive,  joystickGetAnalog(1, 3));
+		//
+		// motorReflect(&frontRDrive, joystickGetAnalog(1, 3) + joystickGetAnalog(1, 1));
+		// motorReflect(&frontLDrive, joystickGetAnalog(1, 3) - joystickGetAnalog(1, 1));
+		// motorReflect(&backRDrive,  joystickGetAnalog(1, 3) + joystickGetAnalog(1, 1));
+		// motorReflect(&backLDrive,  joystickGetAnalog(1, 3) - joystickGetAnalog(1, 1));
 
 		motorReflect(&frontRDrive, joystickGetAnalog(1, 3) - joystickGetAnalog(1, 1) - joystickGetAnalog(1, 4));
 		motorReflect(&frontLDrive, joystickGetAnalog(1, 3) + joystickGetAnalog(1, 1) + joystickGetAnalog(1, 4));
 		motorReflect(&backRDrive,  joystickGetAnalog(1, 3) + joystickGetAnalog(1, 1) - joystickGetAnalog(1, 4));
 		motorReflect(&backLDrive,  joystickGetAnalog(1, 3) - joystickGetAnalog(1, 1) + joystickGetAnalog(1, 4));
 
-		if (joystickGetDigital(1, 6, JOY_UP) == 1) {
-			motorReflect(&lowerLArm, 127);
-			motorReflect(&lowerRArm, 127);
-		}
-
-		if (joystickGetDigital(1, 6, JOY_DOWN) == 1) {
-			motorReflect(&lowerLArm, -127);
-			motorReflect(&lowerRArm, -127);
-		}
-
-		if (joystickGetDigital(1, 5, JOY_UP) == 1) {
-			motorReflect(&middleArm, 127);
-		}
-
-		if (joystickGetDigital(1, 5, JOY_DOWN) == 1) {
-			motorReflect(&middleArm, -127);
-		}
-
-		if ((joystickGetDigital(1, 6, JOY_UP) == 0) && (joystickGetDigital(1, 6, JOY_DOWN) == 0)) {
-			motorReflect(&lowerLArm, 0);
-			motorReflect(&lowerRArm, 0);
-		}
-
-		if (joystickGetDigital(1, 5, JOY_UP) == 1) {
-			motorReflect(&topArm, 127);
-		}
-
-		if (joystickGetDigital(1, 5, JOY_DOWN) == 1) {
-			motorReflect(&topArm, -127);
-		}
-
-		if (joystickGetDigital(1, 5, JOY_UP) == 0) {
-			motorReflect(&topArm, 127);
-		}
-
-		if ((joystickGetDigital(1, 5, JOY_UP) == 0) && (joystickGetDigital(1, 5, JOY_DOWN) == 0)) {
-			motorReflect(&middleArm, 127);
-		}
+		// if (joystickGetDigital(1, 6, JOY_UP) == 1) {
+		// 	motorReflect(&lowerLArm, 127);
+		// 	motorReflect(&lowerRArm, 127);
+		// }
+		//
+		// if (joystickGetDigital(1, 6, JOY_DOWN) == 1) {
+		// 	motorReflect(&lowerLArm, -127);
+		// 	motorReflect(&lowerRArm, -127);
+		// }
+		//
+		// if (joystickGetDigital(1, 5, JOY_UP) == 1) {
+		// 	motorReflect(&middleArm, 127);
+		// }
+		//
+		// if (joystickGetDigital(1, 5, JOY_DOWN) == 1) {
+		// 	motorReflect(&middleArm, -127);
+		// }
+		//
+		// if ((joystickGetDigital(1, 6, JOY_UP) == 0) && (joystickGetDigital(1, 6, JOY_DOWN) == 0)) {
+		// 	motorReflect(&lowerLArm, 0);
+		// 	motorReflect(&lowerRArm, 0);
+		// }
+		//
+		// if (joystickGetDigital(1, 5, JOY_UP) == 1) {
+		// 	motorReflect(&topArm, 127);
+		// }
+		//
+		// if (joystickGetDigital(1, 5, JOY_DOWN) == 1) {
+		// 	motorReflect(&topArm, -127);
+		// }
+		//
+		// if (joystickGetDigital(1, 5, JOY_UP) == 0) {
+		// 	motorReflect(&topArm, 127);
+		// }
+		//
+		// if ((joystickGetDigital(1, 5, JOY_UP) == 0) && (joystickGetDigital(1, 5, JOY_DOWN) == 0)) {
+		// 	motorReflect(&middleArm, 127);
+		// }
 
 		delay(20);
 	}
