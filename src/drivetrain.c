@@ -14,10 +14,10 @@ typedef struct basicDrive_s {
 static void basicDriveTick(void *data);
 
 static basicDrive_t basicDriveData = {
-  {2, DRIVEMOTOR_SIDE_RIGHT, true }, // frontRight
-  {3, DRIVEMOTOR_SIDE_LEFT,  false}, // frontLeft
-  {4, DRIVEMOTOR_SIDE_RIGHT, true }, // backRight
-  {5, DRIVEMOTOR_SIDE_LEFT,  false}, // backLeft
+  {3, DRIVEMOTOR_SIDE_RIGHT, true }, // frontRight
+  {5, DRIVEMOTOR_SIDE_LEFT,  false}, // frontLeft
+  {2, DRIVEMOTOR_SIDE_RIGHT, true }, // backRight
+  {4, DRIVEMOTOR_SIDE_LEFT,  false}, // backLeft
 };
 
 /*
@@ -39,10 +39,10 @@ static void holonomicDriveTick(void *data);
 static void holonomicDriveSet(void *data, double radians, double speed, int rotation);
 
 static holonomicDrive_t holonomicDriveData = {
-  {2, DRIVEMOTOR_SIDE_RIGHT, false}, // frontRight
-  {3, DRIVEMOTOR_SIDE_LEFT,  false}, // frontLeft
-  {4, DRIVEMOTOR_SIDE_RIGHT, false}, // rearRight
-  {5, DRIVEMOTOR_SIDE_LEFT,  false}, // rearLeft
+  {3, DRIVEMOTOR_SIDE_RIGHT, true }, // frontRight
+  {5, DRIVEMOTOR_SIDE_LEFT,  false}, // frontLeft
+  {2, DRIVEMOTOR_SIDE_RIGHT, true }, // rearRight
+  {4, DRIVEMOTOR_SIDE_LEFT,  false}, // rearLeft
 };
 
 /*
