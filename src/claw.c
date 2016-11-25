@@ -3,9 +3,9 @@
 static const motor_t claw = {6};
 
 void claw_tick(void) {
-  if (joystickGetDigital(1, 7, JOY_RIGHT) == 1) {
-    motorReflect(&claw, joystickGetAnalog(1, 2));
-  }
+   if (joystickGetDigital(1, 7, JOY_RIGHT) == 1) {
+     motorReflect(&claw, joystickGetAnalog(1, 2));
+   }
   // if(joystickGetDigital(1, 8, JOY_RIGHT) == 1){
   // 	motorReflect(&claw, 127);
   // }
