@@ -1,18 +1,19 @@
 #include "main.h"
 
-static const motor_t wrist = {7};
+//static const motor_t wrist = {7, false};
 
-void wrist_tick(void) {
+void wrist_tick(joystick_t *joy) {
   // for Motors in Port 7
-  if(joystickGetDigital(1, 5, JOY_UP) == 1){
-    motorReflect(&wrist, 127);
-  }
-
-  if(joystickGetDigital(1, 5, JOY_DOWN) == 1){
-    motorReflect(&wrist, -127);
-  }
-
-  if((joystickGetDigital(1, 5, JOY_UP) == 0) && (joystickGetDigital(1, 5, JOY_DOWN) == 0)){
-    motorReflect(&wrist, 0);
-  }
+//  motorReflect(&wrist, joy->ch2.value * robot.reflected);
+  // if(joystickGetDigital(1, 5, JOY_UP) == 1){
+  //   motorReflect(&wrist, 127);
+  // }
+  //
+  // if(joystickGetDigital(1, 5, JOY_DOWN) == 1){
+  //   motorReflect(&wrist, -127);
+  // }
+  //
+  // if((joystickGetDigital(1, 5, JOY_UP) == 0) && (joystickGetDigital(1, 5, JOY_DOWN) == 0)){
+  //   motorReflect(&wrist, 0);
+  // }
 }

@@ -8,7 +8,7 @@ extern "C" {
 
 // header stuff here
 
-void wrist_tick(void);
+void wrist_tick(joystick_t *joy);
 
 #ifdef __cplusplus
 }

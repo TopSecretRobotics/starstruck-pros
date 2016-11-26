@@ -1,19 +1,24 @@
 #include "main.h"
 
 static const motor_t frontRDrive = {3, true};
-static const motor_t frontLDrive = {5};
+static const motor_t frontLDrive = {5, false};
 static const motor_t backRDrive  = {2, true};
-static const motor_t backLDrive  = {4};
+static const motor_t backLDrive  = {4, false};
 
-void drive_tick(void) {
-  int forwardsBackwardsValue = joystickGetAnalog(1, 3);
-  int rotationValue = joystickGetAnalog(1, 4);
-  int driftValue = joystickGetAnalog(1, 1);
-  if (joystickGetDigital(1, 7, JOY_RIGHT) == 1) {
-    driftValue = 0;
+void drive_tick(joystick_t *joy) {
+  if (joy == NULL) {
+    motorReflect(&frontRDrive, 0);
+    motorReflect(&frontLDrive, 0);
+    motorReflect(&backRDrive, 0);
+    motorReflect(&backLDrive, 0);
+    return;
   }
-  motorReflect(&frontRDrive, forwardsBackwardsValue - driftValue - rotationValue);
-  motorReflect(&frontLDrive, forwardsBackwardsValue + driftValue + rotationValue);
-  motorReflect(&backRDrive,  forwardsBackwardsValue + driftValue - rotationValue);
-  motorReflect(&backLDrive,  forwardsBackwardsValue - driftValue + rotationValue);
+  int xValue = joy->ch4.value;
+  int yValue = joy->ch3.value;
+  // int rValue = ((joy->claw) ? 0 : joy->ch1.value) * robot.reflected;
+  int rValue = joy->ch1.value * robot.reflected;
+  motorReflect(&frontRDrive, (yValue - xValue - rValue) * robot.reflected);
+  motorReflect(&frontLDrive, (yValue + xValue + rValue) * robot.reflected);
+  motorReflect(&backRDrive,  (yValue + xValue - rValue) * robot.reflected);
+  motorReflect(&backLDrive,  (yValue - xValue + rValue) * robot.reflected);
 }

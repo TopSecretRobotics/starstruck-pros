@@ -45,8 +45,11 @@
 
 #include <API.h>
 #include "motor.h"
+#include "joystick.h"
+#include "robot.h"
 #include "arm.h"
 #include "claw.h"
+#include "lift.h"
 #include "drive.h"
 #include "wrist.h"
 

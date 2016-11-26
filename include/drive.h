@@ -8,7 +8,7 @@ extern "C" {
 
 // header stuff here
 
-void drive_tick(void);
+void drive_tick(joystick_t *joy);
 
 #ifdef __cplusplus
 }

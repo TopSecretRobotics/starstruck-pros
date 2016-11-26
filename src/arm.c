@@ -1,27 +1,23 @@
 #include "main.h"
 
-static const motor_t middleRArm  = {8, false};
-static const motor_t middleLArm  = {9};
+static const motor_t armT = {8, false};
+static const motor_t armC = {7, true};
+static const motor_t armB = {6, true};
 
-void arm_tick(void) {
-//for Motors in Ports 8 & 9
-	if (joystickGetDigital(1, 6, JOY_UP ) == 1){
-		motorReflect(&middleRArm, 127);
-		motorReflect(&middleLArm, 127);
-	}
+// #define ARM_POWER 90
 
-	if(joystickGetDigital(1, 6, JOY_UP) == 0){
-		motorReflect(&middleRArm, 0);
-		motorReflect(&middleLArm, 0);
-	}
+// static void motorCap(const motor_t *motor, int speed) {
+// 	if (speed > 100) {
+// 		speed = 100;
+// 	} else if (speed < -100) {
+// 		speed = -100;
+// 	}
+// 	motorReflect(motor, speed);
+// }
 
-	if (joystickGetDigital(1, 6, JOY_DOWN ) == 1){
-		motorReflect(&middleRArm, -127);
-		motorReflect(&middleLArm, -127);
-	}
-
-	if(joystickGetDigital(1, 6, JOY_DOWN) == 0){
-		motorReflect(&middleRArm, 0);
-		motorReflect(&middleLArm, 0);
-	}
+void arm_tick(joystick_t *joy) {
+	// for Motors in Ports 8 & 7 & 6
+	motorReflect(&armT, joy->ch3.value * robot.reflected);
+	motorReflect(&armC, joy->ch3.value * robot.reflected);
+	motorReflect(&armB, joy->ch3.value * robot.reflected);
 }

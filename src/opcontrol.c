@@ -32,15 +32,56 @@ static const unsigned char bot_pot = 2;
  * This task should never exit; it should end with some kind of infinite loop, even if empty.
  */
 
-void operatorControl() {
-	while (1) {
-		drive_tick();
-		arm_tick();
-		wrist_tick();
-		claw_tick();
+static void debugJoystick(joystick_t *joy) {
+	lcdPrint(uart1, joy->joystick, "J%d %s%s%s%s%s%s%s",
+		joy->joystick,
+		(joy->mode == JOY_MODE_ARM) ? "A" : "D",
+		(joy->claw) ? " C" : "",
+		(joy->btn7l.pressed) ? " BT" : "",
+		(joy->btn8r.pressed) ? " FT" : "",
+		(joy->btn7d.pressed) ? " DU" : "",
+		(robot.reflected == -1) ? " I" : "",
+		(joy->btn8d.pressed) ? " WI" : ""
+	);
+}
 
-		lcdPrint(uart1, 1,"T %d", analogRead(top_pot));
-	  lcdPrint(uart1, 2,"B %d", analogRead(bot_pot));
+void operatorControl() {
+	joystick_t joy1;
+	joystick_t joy2;
+
+	joystickInit(&joy1, 1, JOY_MODE_DRV);
+	joystickInit(&joy2, 2, JOY_MODE_ARM);
+
+	while (1) {
+		joystickTick(&joy1);
+		joystickTick(&joy2);
+
+		debugJoystick(&joy1);
+		debugJoystick(&joy2);
+
+		if (joy1.mode == JOY_MODE_DRV) {
+			drive_tick(&joy1);
+		} else if (joy2.mode == JOY_MODE_DRV) {
+			drive_tick(&joy2);
+		} else {
+			drive_tick(NULL);
+		}
+
+		if (joy2.mode == JOY_MODE_ARM) {
+			lift_tick(&joy2);
+		} else if (joy1.mode == JOY_MODE_ARM) {
+			lift_tick(&joy1);
+		} else {
+			lift_tick(NULL);
+		}
+
+		// drive_tick();
+		// arm_tick();
+		// wrist_tick();
+		// claw_tick();
+		//
+		// lcdPrint(uart1, 1,"T %d", analogRead(top_pot));
+	  // lcdPrint(uart1, 2,"B %d", analogRead(bot_pot));
 
 		delay(20);
 	}

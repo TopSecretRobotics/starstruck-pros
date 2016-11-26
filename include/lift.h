@@ -1,6 +1,6 @@
-#ifndef ARM_H_
+#ifndef LIFT_H_
 
-#define ARM_H_
+#define LIFT_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -8,7 +8,7 @@ extern "C" {
 
 // header stuff here
 
-void arm_tick(joystick_t *joy);
+void lift_tick(joystick_t *joy);
 
 #ifdef __cplusplus
 }
