@@ -2,6 +2,8 @@
 
 #define MOTOR_H_
 
+#include "main.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

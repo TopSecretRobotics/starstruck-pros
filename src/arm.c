@@ -2,7 +2,7 @@
 
 static const motor_t armT = {8, false};
 static const motor_t armC = {7, true};
-static const motor_t armB = {6, true};
+static const motor_t armB = {3, true};
 
 // #define ARM_POWER 90
 
@@ -16,7 +16,7 @@ static const motor_t armB = {6, true};
 // }
 
 void arm_tick(joystick_t *joy) {
-	// for Motors in Ports 8 & 7 & 6
+	// for Motors in Ports 8 & 7 & 3
 	motorReflect(&armT, joy->ch3.value * robot.reflected);
 	motorReflect(&armC, joy->ch3.value * robot.reflected);
 	motorReflect(&armB, joy->ch3.value * robot.reflected);

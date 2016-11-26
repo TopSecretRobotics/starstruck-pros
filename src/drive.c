@@ -1,9 +1,9 @@
 #include "main.h"
 
-static const motor_t frontRDrive = {3, true};
-static const motor_t frontLDrive = {5, false};
-static const motor_t backRDrive  = {2, true};
-static const motor_t backLDrive  = {4, false};
+static const motor_t frontRDrive = {9, true};
+static const motor_t frontLDrive = {2, false};
+static const motor_t backRDrive  = {10, true};
+static const motor_t backLDrive  = {1, false};
 
 void drive_tick(joystick_t *joy) {
   if (joy == NULL) {

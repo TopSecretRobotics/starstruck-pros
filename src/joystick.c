@@ -22,10 +22,10 @@ void joystickInit(joystick_t *joy, unsigned char joystick, uint8_t mode) {
   joystickButtonInit(&joy->btn8u, 8, JOY_UP);
   joystickButtonInit(&joy->btn8l, 8, JOY_LEFT);
   joystickButtonInit(&joy->btn8r, 8, JOY_RIGHT);
-  joystickStickInit(&joy->ch1, 1, 10);
-  joystickStickInit(&joy->ch2, 2, 10);
-  joystickStickInit(&joy->ch3, 3, 10);
-  joystickStickInit(&joy->ch4, 4, 10);
+  joystickStickInit(&joy->ch1, 1, 20);
+  joystickStickInit(&joy->ch2, 2, 20);
+  joystickStickInit(&joy->ch3, 3, 20);
+  joystickStickInit(&joy->ch4, 4, 20);
 }
 
 void joystickTick(joystick_t *joy) {

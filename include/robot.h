@@ -2,7 +2,7 @@
 
 #define ROBOT_H_
 
-#include <API.h>
+#include "main.h"
 
 #ifdef __cplusplus
 extern "C" {
