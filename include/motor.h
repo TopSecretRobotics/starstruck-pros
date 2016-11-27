@@ -1,8 +1,8 @@
+#include <API.h>
+
 #ifndef MOTOR_H_
 
 #define MOTOR_H_
-
-#include "main.h"
 
 #ifdef __cplusplus
 extern "C" {

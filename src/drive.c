@@ -2,7 +2,7 @@
 
 static const motor_t frontRDrive = {9, true};
 static const motor_t frontLDrive = {2, false};
-static const motor_t backRDrive  = {10, true};
+static const motor_t backRDrive  = {10, false};
 static const motor_t backLDrive  = {1, false};
 
 void drive_tick(joystick_t *joy) {

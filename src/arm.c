@@ -17,7 +17,30 @@ static const motor_t armB = {3, true};
 
 void arm_tick(joystick_t *joy) {
 	// for Motors in Ports 8 & 7 & 3
-	motorReflect(&armT, joy->ch3.value * robot.reflected);
-	motorReflect(&armC, joy->ch3.value * robot.reflected);
-	motorReflect(&armB, joy->ch3.value * robot.reflected);
+	arm_set(joy->ch3.value * robot.reflected);
 }
+
+void arm_set(int speed) {
+	motorReflect(&armT, speed);
+	motorReflect(&armC, speed);
+	motorReflect(&armB, speed);
+}
+
+void arm_maintain(int speed, unsigned long milliseconds) {
+	unsigned long start_time = millis();
+	unsigned long current_time = start_time;
+	while ((current_time - start_time) < milliseconds) {
+		arm_set(speed);
+		current_time = millis();
+		delay(20);
+	}
+}
+
+// void arm_until(int speed, int target) {
+// 	int current = analogRead(1);
+// 	while (current < target) {
+// 		arm_set(speed);
+// 		current = analogRead(1);
+// 		delay(20);
+// 	}
+// }

@@ -2,7 +2,7 @@
 
 static const motor_t claw = {5, false};
 
-#define CLAW_POWER 110
+#define CLAW_POWER 127
 
 void claw_tick(joystick_t *joy) {
   if (joy->claw) {

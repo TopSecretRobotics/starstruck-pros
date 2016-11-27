@@ -1,8 +1,8 @@
+#include "lift.h"
+
 #ifndef CLAW_H_
 
 #define CLAW_H_
-
-#include "main.h"
 
 #ifdef __cplusplus
 extern "C" {

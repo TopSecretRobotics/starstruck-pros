@@ -1,8 +1,8 @@
+#include <API.h>
+
 #ifndef ROBOT_H_
 
 #define ROBOT_H_
-
-#include "main.h"
 
 #ifdef __cplusplus
 extern "C" {

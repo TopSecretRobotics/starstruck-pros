@@ -1,8 +1,8 @@
+#include "lift.h"
+
 #ifndef ARM_H_
 
 #define ARM_H_
-
-#include "main.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -11,6 +11,8 @@ extern "C" {
 // header stuff here
 
 void arm_tick(joystick_t *joy);
+void arm_set(int speed);
+void arm_maintain(int speed, unsigned long milliseconds);
 
 #ifdef __cplusplus
 }

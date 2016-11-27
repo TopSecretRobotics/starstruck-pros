@@ -1,8 +1,10 @@
+#include <API.h>
+#include "motor.h"
+#include "robot.h"
+
 #ifndef JOYSTICK_H_
 
 #define JOYSTICK_H_
-
-#include "main.h"
 
 #ifdef __cplusplus
 extern "C" {

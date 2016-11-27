@@ -1,8 +1,11 @@
+#include <API.h>
+#include "motor.h"
+#include "robot.h"
+#include "joystick.h"
+
 #ifndef LIFT_H_
 
 #define LIFT_H_
-
-#include "main.h"
 
 #ifdef __cplusplus
 extern "C" {

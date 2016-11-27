@@ -1,8 +1,8 @@
+#include "lift.h"
+
 #ifndef WRIST_H_
 
 #define WRIST_H_
-
-#include "main.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -2,7 +2,10 @@
 
 #define DRIVE_H_
 
-#include "main.h"
+#include <API.h>
+#include "motor.h"
+#include "robot.h"
+#include "joystick.h"
 
 #ifdef __cplusplus
 extern "C" {
