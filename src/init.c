@@ -21,6 +21,7 @@
  * configure a UART port (usartOpen()) but cannot set up an LCD (lcdInit()).
  */
 void initializeIO() {
+	controller_power_table_init();
 }
 
 /*
@@ -37,7 +38,9 @@ void initializeIO() {
  * can be implemented in this task if desired.
  */
 void initialize() {
-  lcdInit(uart1);
-  lcdClear(uart1);
-  lcdSetBacklight(uart1, true);
+	setTeamName("TopSecret");
+	lcdInit(uart1);
+	lcdClear(uart1);
+	lcdSetBacklight(uart1, true);
+	robot_init();
 }

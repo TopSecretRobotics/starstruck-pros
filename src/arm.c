@@ -1,46 +1,71 @@
 #include "main.h"
 
-static const motor_t armT = {8, false};
-static const motor_t armC = {7, true};
-static const motor_t armB = {3, true};
-
-// #define ARM_POWER 90
-
-// static void motorCap(const motor_t *motor, int speed) {
-// 	if (speed > 100) {
-// 		speed = 100;
-// 	} else if (speed < -100) {
-// 		speed = -100;
-// 	}
-// 	motorReflect(motor, speed);
-// }
-
-void arm_tick(joystick_t *joy) {
-	// for Motors in Ports 8 & 7 & 3
-	arm_set(joy->ch3.value * robot.reflected);
+bool
+arm_init(arm_t *arm, motor_t *top, motor_t *mid, motor_t *bot, pot_t *pot, int16_t rest_position, int16_t reflected_rest_position)
+{
+	arm->top = top;
+	arm->mid = mid;
+	arm->bot = bot;
+	arm->rest_position = rest_position;
+	arm->reflected_rest_position = reflected_rest_position;
+	arm->autolock = true;
+	arm->autolock_timeout = 0;
+	controller_init(&arm->lock, CONTROLLER_TYPE_PID, 1, 1, 1, 0, (sensor_t *) pot);
+	arm->lock.active = false;
+	return true;
 }
 
-void arm_set(int speed) {
-	motorReflect(&armT, speed);
-	motorReflect(&armC, speed);
-	motorReflect(&armB, speed);
-}
-
-void arm_maintain(int speed, unsigned long milliseconds) {
-	unsigned long start_time = millis();
-	unsigned long current_time = start_time;
-	while ((current_time - start_time) < milliseconds) {
-		arm_set(speed);
-		current_time = millis();
-		delay(20);
+void
+arm_control(arm_t *arm, control_t *control)
+{
+	int speed = control->arm * robot.reflected;
+	if (speed != 0) {
+		arm_unlock(arm);
+		arm_set(arm, speed);
+		return;
 	}
+	if (control->action & OPERATOR_ACTION_LIFT_REST) {
+		arm_lock(arm, (robot.reflected == 1) ? arm->rest_position : arm->reflected_rest_position);
+		control->driver->action &= ~OPERATOR_ACTION_LIFT_REST;
+		control->gunner->action &= ~OPERATOR_ACTION_LIFT_REST;
+	}
+	if (!arm->lock.active && arm->autolock) {
+		unsigned long now = millis();
+		if (arm->autolock_timeout == 0) {
+			arm->lock.target_value = sensor_get(arm->lock.sensor);
+			arm->autolock_timeout = now + ARM_AUTOLOCK_TIMEOUT;
+		} else if (now >= arm->autolock_timeout) {
+			arm->lock.active = true;
+			arm->autolock_timeout = 0;
+		}
+	}
+	speed = controller_update(&arm->lock);
+	arm_set(arm, speed);
+	return;
 }
 
-// void arm_until(int speed, int target) {
-// 	int current = analogRead(1);
-// 	while (current < target) {
-// 		arm_set(speed);
-// 		current = analogRead(1);
-// 		delay(20);
-// 	}
-// }
+void
+arm_set(arm_t *arm, int speed)
+{
+	motor_set(arm->top, speed);
+	motor_set(arm->mid, speed);
+	motor_set(arm->bot, speed);
+	return;
+}
+
+void
+arm_lock(arm_t *arm, int16_t position)
+{
+	arm->lock.target_value = position;
+	arm->lock.active = true;
+	arm->autolock_timeout = 0;
+	return;
+}
+
+void
+arm_unlock(arm_t *arm)
+{
+	arm->lock.active = false;
+	arm->autolock_timeout = 0;
+	return;
+}

@@ -44,14 +44,20 @@
 #define MAIN_H_
 
 #include <API.h>
+#include <math.h>
+#include "controller.h"
 #include "motor.h"
-#include "joystick.h"
+#include "control.h"
+#include "gamepad.h"
+#include "operator.h"
+#include "sensor.h"
+#include "pot.h"
 #include "robot.h"
 #include "arm.h"
 #include "claw.h"
+#include "wrist.h"
 #include "lift.h"
 #include "drive.h"
-#include "wrist.h"
 
 // Allow usage of this file in C++ programs
 #ifdef __cplusplus

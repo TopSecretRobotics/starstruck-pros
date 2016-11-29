@@ -12,8 +12,6 @@
 
 #include "main.h"
 
-static const unsigned char top_pot = 1;
-static const unsigned char bot_pot = 2;
 /*
  * Runs the user operator control code. This function will be started in its own task with the
  * default priority and stack size whenever the robot is enabled via the Field Management System
@@ -32,57 +30,39 @@ static const unsigned char bot_pot = 2;
  * This task should never exit; it should end with some kind of infinite loop, even if empty.
  */
 
-static void debugJoystick(joystick_t *joy) {
-	lcdPrint(uart1, joy->joystick, "J%d %s%s%s%s%s%s%s",
-		joy->joystick,
-		(joy->mode == JOY_MODE_ARM) ? "A" : "D",
-		(joy->claw) ? " C" : "",
-		(joy->btn7l.pressed) ? " BT" : "",
-		(joy->btn8r.pressed) ? " FT" : "",
-		(joy->btn7d.pressed) ? " DU" : "",
-		(robot.reflected == -1) ? " I" : "",
-		(joy->btn8d.pressed) ? " WI" : ""
-	);
-}
+// static void debugJoystick(joystick_t *joy) {
+// 	lcdPrint(uart1, joy->joystick, "J%d %s%s%s%s%s%s%s",
+// 		joy->joystick,
+// 		(joy->mode == JOY_MODE_ARM) ? "A" : "D",
+// 		(joy->claw) ? " C" : "",
+// 		(joy->btn7l.pressed) ? " BT" : "",
+// 		(joy->btn8r.pressed) ? " FT" : "",
+// 		(joy->btn7d.pressed) ? " DU" : "",
+// 		(robot.reflected == -1) ? " I" : "",
+// 		(joy->btn8d.pressed) ? " WI" : ""
+// 	);
+// }
 
 void operatorControl() {
-	joystick_t joy1;
-	joystick_t joy2;
-
-	joystickInit(&joy1, 1, JOY_MODE_DRV);
-	joystickInit(&joy2, 2, JOY_MODE_ARM);
-
+	control_t control;
+	control_init(&control);
 	while (1) {
-		joystickTick(&joy1);
-		joystickTick(&joy2);
-
-		debugJoystick(&joy1);
-		debugJoystick(&joy2);
-
-		if (joy1.mode == JOY_MODE_DRV) {
-			drive_tick(&joy1);
-		} else if (joy2.mode == JOY_MODE_DRV) {
-			drive_tick(&joy2);
-		} else {
-			drive_tick(NULL);
+		control_update(&control);
+		if (control.action & OPERATOR_ACTION_ROBOT_FLIP) {
+			robot.reflected *= (-1);
+			control.driver->action &= ~OPERATOR_ACTION_ROBOT_FLIP;
+			control.gunner->action &= ~OPERATOR_ACTION_ROBOT_FLIP;
 		}
-
-		if (joy2.mode == JOY_MODE_ARM) {
-			lift_tick(&joy2);
-		} else if (joy1.mode == JOY_MODE_ARM) {
-			lift_tick(&joy1);
-		} else {
-			lift_tick(NULL);
-		}
-
+		drive_control(&robot.drive, &control);
+		lift_control(&robot.lift, &control);
+		// debugJoystick(&joy1);
+		// debugJoystick(&joy2);
 		// drive_tick();
 		// arm_tick();
 		// wrist_tick();
 		// claw_tick();
-		//
 		// lcdPrint(uart1, 1,"T %d", analogRead(top_pot));
-	  // lcdPrint(uart1, 2,"B %d", analogRead(bot_pot));
-
+		// lcdPrint(uart1, 2,"B %d", analogRead(bot_pot));
 		delay(20);
 	}
 }

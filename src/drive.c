@@ -1,24 +1,28 @@
 #include "main.h"
 
-static const motor_t frontRDrive = {9, true};
-static const motor_t frontLDrive = {2, false};
-static const motor_t backRDrive  = {10, false};
-static const motor_t backLDrive  = {1, false};
+bool
+drive_init(drive_t *drive, wheel_type_t wheel_type, motor_t *ne, motor_t *nw, motor_t *se, motor_t *sw)
+{
+	drive->ne.motor = ne;
+	drive->nw.motor = nw;
+	drive->se.motor = se;
+	drive->sw.motor = sw;
+	drive->ne.type = wheel_type;
+	drive->nw.type = wheel_type;
+	drive->se.type = wheel_type;
+	drive->sw.type = wheel_type;
+	return true;
+}
 
-void drive_tick(joystick_t *joy) {
-  if (joy == NULL) {
-    motorReflect(&frontRDrive, 0);
-    motorReflect(&frontLDrive, 0);
-    motorReflect(&backRDrive, 0);
-    motorReflect(&backLDrive, 0);
-    return;
-  }
-  int xValue = joy->ch4.value;
-  int yValue = joy->ch3.value;
-  // int rValue = ((joy->claw) ? 0 : joy->ch1.value) * robot.reflected;
-  int rValue = joy->ch1.value * robot.reflected;
-  motorReflect(&frontRDrive, (yValue - xValue - rValue) * robot.reflected);
-  motorReflect(&frontLDrive, (yValue + xValue + rValue) * robot.reflected);
-  motorReflect(&backRDrive,  (yValue + xValue - rValue) * robot.reflected);
-  motorReflect(&backLDrive,  (yValue - xValue + rValue) * robot.reflected);
+void
+drive_control(drive_t *drive, control_t *control)
+{
+	int x = control->drive_x;
+	int y = control->drive_y;
+	int r = control->drive_r;
+	motor_set(drive->ne.motor, (y - x - r) * robot.reflected);
+	motor_set(drive->nw.motor, (y + x + r) * robot.reflected);
+	motor_set(drive->se.motor, (y + x - r) * robot.reflected);
+	motor_set(drive->sw.motor, (y - x + r) * robot.reflected);
+	return;
 }
