@@ -8,7 +8,7 @@ arm_init(arm_t *arm, motor_t *top, motor_t *mid, motor_t *bot, pot_t *pot, int16
 	arm->bot = bot;
 	arm->rest_position = rest_position;
 	arm->reflected_rest_position = reflected_rest_position;
-	arm->autolock = true;
+	arm->autolock = false;
 	arm->autolock_timeout = 0;
 	controller_init(&arm->lock, CONTROLLER_TYPE_PID, 1, 1, 1, 0, (sensor_t *) pot);
 	arm->lock.active = false;

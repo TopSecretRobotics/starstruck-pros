@@ -6,7 +6,7 @@ claw_init(claw_t *claw, motor_t *motor, pot_t *pot, int16_t grab_position, int16
 	claw->motor = motor;
 	claw->grab_position = grab_position;
 	claw->open_position = open_position;
-	claw->autolock = true;
+	claw->autolock = false;
 	claw->autolock_timeout = 0;
 	controller_init(&claw->lock, CONTROLLER_TYPE_PID, 1, 1, 1, 0, (sensor_t *) pot);
 	claw->lock.active = false;

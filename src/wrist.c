@@ -6,7 +6,7 @@ wrist_init(wrist_t *wrist, motor_t *motor, pot_t *pot, int16_t rest_position, in
 	wrist->motor = motor;
 	wrist->rest_position = rest_position;
 	wrist->reflected_rest_position = reflected_rest_position;
-	wrist->autolock = true;
+	wrist->autolock = false;
 	wrist->autolock_timeout = 0;
 	controller_init(&wrist->lock, CONTROLLER_TYPE_PID, 1, 1, 1, 0, (sensor_t *) pot);
 	wrist->lock.active = false;
