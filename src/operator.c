@@ -29,7 +29,7 @@ operator_init(operator_t *op, unsigned char joystick, uint8_t role)
 	op->action = OPERATOR_ACTION_NONE;
 
 	BIND(op, btn7r, click,   op_action_lift_dump,   0, 1000);
-	BIND(op, btn7l, click,   op_action_lift_rest,   0, 1000);
+	BIND(op, btn7u, click,   op_action_lift_rest,   0, 1000);
 	BIND(op, btn7l, click,   op_action_lift_toss,   0, 1000);
 	BIND(op, btn8u, click,   op_action_robot_flip,  0, 1000);
 	BIND(op, btn7d, click,   op_action_wrist_rest,  0, 1000);
@@ -51,7 +51,7 @@ operator_init(operator_t *op, unsigned char joystick, uint8_t role)
 void
 operator_update(operator_t *op)
 {
-	gamepad_update(&op->gamepad);
+	gamepad_update(&(op->gamepad));
 	return;
 }
 

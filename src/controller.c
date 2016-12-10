@@ -37,6 +37,12 @@ controller_power_table_init(void)
 	return true;
 }
 
+int16_t
+controller_power_table_get(int index)
+{
+	return controller_power_table[index];
+}
+
 void
 controller_init(controller_t *c, uint8_t type, float Kp, float Ki, float Kd, float Kbias, sensor_t *sensor)
 {

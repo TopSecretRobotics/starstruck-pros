@@ -17,7 +17,7 @@ extern "C" {
 
 typedef struct robot_s {
 	motor_t motor[10];
-	pot_t   pot[3];
+	pot_t   pot[4];
 	drive_t drive;
 	arm_t   arm;
 	wrist_t wrist;

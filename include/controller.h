@@ -55,6 +55,7 @@ typedef struct controller_s {
 } controller_t;
 
 extern bool controller_power_table_init(void);
+extern int16_t controller_power_table_get(int index);
 extern void controller_init(controller_t *c, uint8_t type, float Kp, float Ki, float Kd, float Kbias, sensor_t *sensor);
 extern int16_t controller_update(controller_t *c);
 

@@ -12,7 +12,7 @@
 extern "C" {
 #endif
 
-#define ARM_AUTOLOCK_TIMEOUT 500
+#define ARM_AUTOLOCK_TIMEOUT 100
 
 typedef struct arm_s {
 	motor_t       *top; // top

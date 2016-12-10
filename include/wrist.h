@@ -12,7 +12,7 @@
 extern "C" {
 #endif
 
-#define WRIST_AUTOLOCK_TIMEOUT 500
+#define WRIST_AUTOLOCK_TIMEOUT 100
 
 typedef struct wrist_s {
 	motor_t       *motor;

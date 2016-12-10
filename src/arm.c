@@ -8,9 +8,10 @@ arm_init(arm_t *arm, motor_t *top, motor_t *mid, motor_t *bot, pot_t *pot, int16
 	arm->bot = bot;
 	arm->rest_position = rest_position;
 	arm->reflected_rest_position = reflected_rest_position;
-	arm->autolock = false;
+	arm->autolock = true;
 	arm->autolock_timeout = 0;
-	controller_init(&arm->lock, CONTROLLER_TYPE_PID, 1, 1, 1, 0, (sensor_t *) pot);
+	controller_init(&arm->lock, CONTROLLER_TYPE_PID, 0.1, 0.1, 1, 0, (sensor_t *) pot);
+	arm->lock.error_threshold = 100;
 	arm->lock.active = false;
 	return true;
 }
@@ -19,6 +20,8 @@ void
 arm_control(arm_t *arm, control_t *control)
 {
 	int speed = control->arm * robot.reflected;
+	int16_t sensor_value = sensor_get(arm->lock.sensor);
+	lcdPrint(uart1, 1, "arm %d", sensor_value);
 	if (speed != 0) {
 		arm_unlock(arm);
 		arm_set(arm, speed);

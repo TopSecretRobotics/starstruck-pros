@@ -43,18 +43,54 @@
 // 	);
 // }
 
+// void
+// not_control_init(control_t *control) {
+// 	control->action    = OPERATOR_ACTION_NONE;
+// 	control->mode      = OPERATOR_MODE_NONE;
+// 	control->last_mode = OPERATOR_MODE_NONE;
+// 	control->arm       = 0;
+// 	control->claw      = 0;
+// 	control->drive_x   = 0;
+// 	// control->drive_y   = 0;
+// 	// control->drive_r   = 0;
+// 	// control->wrist     = 0;
+// 	// // control->op[0] = NULL;
+// 	// // control->op[1] = NULL;
+// 	// control->driver = &(control->op[0]);
+// 	// control->gunner = &(control->op[1]);
+// 	return;
+// }
+
+static control_t global_control;
+
 void operatorControl() {
-	control_t control;
-	control_init(&control);
+	control_init(&global_control);
+	// int i = 0;
 	while (1) {
-		control_update(&control);
-		if (control.action & OPERATOR_ACTION_ROBOT_FLIP) {
+		control_update(&global_control);
+		// lcdPrint(uart1, 1, "J1 CH1 = %d", joystickGetAnalog(1, 1));
+		// lcdPrint(uart1, 2, "J2 CH1 = %d", joystickGetAnalog(2, 1));
+		if (global_control.action & OPERATOR_ACTION_ROBOT_FLIP) {
 			robot.reflected *= (-1);
-			control.driver->action &= ~OPERATOR_ACTION_ROBOT_FLIP;
-			control.gunner->action &= ~OPERATOR_ACTION_ROBOT_FLIP;
+			global_control.driver->action &= ~OPERATOR_ACTION_ROBOT_FLIP;
+			global_control.gunner->action &= ~OPERATOR_ACTION_ROBOT_FLIP;
 		}
-		drive_control(&robot.drive, &control);
-		lift_control(&robot.lift, &control);
+		// printf("millis() = %lu\n", millis());
+		// lcdPrint(uart1, 1, "%lu", millis());
+		// lcdPrint(uart1, 1, "X %d Y %d R %d", global_control.drive_x, global_control.drive_y, global_control.drive_r);
+		// if (i > 128) {
+		// 	i = 0;
+		// }
+		// lcdPrint(uart1, 2, "%d", controller_power_table_get(i++));
+		// global_control.driver->gamepad.ch1->value = 9;
+		// lcdPrint(uart1, 2, "%d %d %d %d",
+		// 	global_control.driver->gamepad.ch1->value,
+		// 	global_control.driver->gamepad.ch2->value,
+		// 	global_control.driver->gamepad.ch3->value,
+		// 	global_control.driver->gamepad.ch4->value
+		// );
+		drive_control(&(robot.drive), &global_control);
+		lift_control(&(robot.lift), &global_control);
 		// debugJoystick(&joy1);
 		// debugJoystick(&joy2);
 		// drive_tick();

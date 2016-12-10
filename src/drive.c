@@ -19,7 +19,13 @@ drive_control(drive_t *drive, control_t *control)
 {
 	int x = control->drive_x;
 	int y = control->drive_y;
-	int r = control->drive_r;
+	int r = control->drive_r * robot.reflected;
+	// lcdPrint(uart1, 1, "x %d y %d r %d", x, y, r);
+	// lcdPrint(uart1, 2, "ne%dnw%dse%dsw%d",
+	// 	drive->ne.motor->channel,
+	// 	drive->nw.motor->channel,
+	// 	drive->se.motor->channel,
+	// 	drive->sw.motor->channel);
 	motor_set(drive->ne.motor, (y - x - r) * robot.reflected);
 	motor_set(drive->nw.motor, (y + x + r) * robot.reflected);
 	motor_set(drive->se.motor, (y + x - r) * robot.reflected);

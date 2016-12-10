@@ -6,9 +6,10 @@ claw_init(claw_t *claw, motor_t *motor, pot_t *pot, int16_t grab_position, int16
 	claw->motor = motor;
 	claw->grab_position = grab_position;
 	claw->open_position = open_position;
-	claw->autolock = false;
+	claw->autolock = true;
 	claw->autolock_timeout = 0;
-	controller_init(&claw->lock, CONTROLLER_TYPE_PID, 1, 1, 1, 0, (sensor_t *) pot);
+	controller_init(&claw->lock, CONTROLLER_TYPE_PID, 0.2, 0.05, 0.1, 0, (sensor_t *) pot);
+	claw->lock.error_threshold = 100;
 	claw->lock.active = false;
 	return true;
 }
@@ -17,6 +18,8 @@ void
 claw_control(claw_t *claw, control_t *control)
 {
 	int speed = control->claw;
+	//int16_t sensor_value = sensor_get(claw->lock.sensor);
+	// lcdPrint(uart1, 1, "pot %d", sensor_value);
 	if (speed != 0) {
 		claw_unlock(claw);
 		claw_set(claw, speed);
@@ -46,6 +49,8 @@ claw_control(claw_t *claw, control_t *control)
 		}
 	}
 	speed = controller_update(&claw->lock);
+	// speed = claw->lock.drive_raw;
+	// lcdPrint(uart1, 2, "m %u t %u s %d", control->mode, claw->lock.target_value, speed);
 	claw_set(claw, speed);
 	return;
 }

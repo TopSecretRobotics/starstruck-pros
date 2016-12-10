@@ -12,7 +12,7 @@
 extern "C" {
 #endif
 
-#define CLAW_AUTOLOCK_TIMEOUT 500
+#define CLAW_AUTOLOCK_TIMEOUT 100
 
 typedef struct claw_s {
 	motor_t       *motor;

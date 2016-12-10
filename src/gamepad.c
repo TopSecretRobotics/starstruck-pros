@@ -14,22 +14,22 @@ bool
 gamepad_init(gamepad_t *gp, unsigned char joystick)
 {
 	gp->joystick = joystick;
-	gp->ch1 = gamepad_analog_init(&gp->analog[0], 1, GAMEPAD_ANALOG_CH1_DEADBAND);
-	gp->ch2 = gamepad_analog_init(&gp->analog[1], 2, GAMEPAD_ANALOG_CH2_DEADBAND);
-	gp->ch3 = gamepad_analog_init(&gp->analog[2], 3, GAMEPAD_ANALOG_CH3_DEADBAND);
-	gp->ch4 = gamepad_analog_init(&gp->analog[3], 4, GAMEPAD_ANALOG_CH4_DEADBAND);
-	gp->btn5d = gamepad_digital_init(&gp->digital[0], 5, JOY_DOWN);
-	gp->btn5u = gamepad_digital_init(&gp->digital[1], 5, JOY_UP);
-	gp->btn6d = gamepad_digital_init(&gp->digital[2], 6, JOY_DOWN);
-	gp->btn6u = gamepad_digital_init(&gp->digital[3], 6, JOY_UP);
-	gp->btn7d = gamepad_digital_init(&gp->digital[4], 7, JOY_DOWN);
-	gp->btn7l = gamepad_digital_init(&gp->digital[5], 7, JOY_LEFT);
-	gp->btn7u = gamepad_digital_init(&gp->digital[6], 7, JOY_UP);
-	gp->btn7r = gamepad_digital_init(&gp->digital[7], 7, JOY_RIGHT);
-	gp->btn8d = gamepad_digital_init(&gp->digital[8], 8, JOY_DOWN);
-	gp->btn8l = gamepad_digital_init(&gp->digital[9], 8, JOY_LEFT);
-	gp->btn8u = gamepad_digital_init(&gp->digital[10], 8, JOY_UP);
-	gp->btn8r = gamepad_digital_init(&gp->digital[11], 8, JOY_RIGHT);
+	gp->ch1 = gamepad_analog_init(&(gp->analog[0]), 1, GAMEPAD_ANALOG_CH1_DEADBAND);
+	gp->ch2 = gamepad_analog_init(&(gp->analog[1]), 2, GAMEPAD_ANALOG_CH2_DEADBAND);
+	gp->ch3 = gamepad_analog_init(&(gp->analog[2]), 3, GAMEPAD_ANALOG_CH3_DEADBAND);
+	gp->ch4 = gamepad_analog_init(&(gp->analog[3]), 4, GAMEPAD_ANALOG_CH4_DEADBAND);
+	gp->btn5d = gamepad_digital_init(&(gp->digital[0]), 5, JOY_DOWN);
+	gp->btn5u = gamepad_digital_init(&(gp->digital[1]), 5, JOY_UP);
+	gp->btn6d = gamepad_digital_init(&(gp->digital[2]), 6, JOY_DOWN);
+	gp->btn6u = gamepad_digital_init(&(gp->digital[3]), 6, JOY_UP);
+	gp->btn7d = gamepad_digital_init(&(gp->digital[4]), 7, JOY_DOWN);
+	gp->btn7l = gamepad_digital_init(&(gp->digital[5]), 7, JOY_LEFT);
+	gp->btn7u = gamepad_digital_init(&(gp->digital[6]), 7, JOY_UP);
+	gp->btn7r = gamepad_digital_init(&(gp->digital[7]), 7, JOY_RIGHT);
+	gp->btn8d = gamepad_digital_init(&(gp->digital[8]), 8, JOY_DOWN);
+	gp->btn8l = gamepad_digital_init(&(gp->digital[9]), 8, JOY_LEFT);
+	gp->btn8u = gamepad_digital_init(&(gp->digital[10]), 8, JOY_UP);
+	gp->btn8r = gamepad_digital_init(&(gp->digital[11]), 8, JOY_RIGHT);
 	return true;
 }
 
@@ -39,7 +39,7 @@ gamepad_update(gamepad_t *gp)
 	unsigned long now = millis();
 	int i;
 	for (i = 0; i < GAMEPAD_ANALOG_SIZE; i++) {
-		gamepad_analog_update(gp, &gp->analog[i], now);
+		gamepad_analog_update(gp, &(gp->analog[i]), now);
 	}
 	for (i = 0; i < GAMEPAD_DIGITAL_SIZE; i++) {
 		gamepad_digital_update(gp, &gp->digital[i], now);
